@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, Intial-scale=1">
+	<title>Accident Severity</title>
+	
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'index.css') }}">
+    <script src="{{ url_for('static', filename = 'jquery.js') }}"></script>
+    <style type="text/css">
+		#accidenttable {
+		  font-family: Arial, Helvetica, sans-serif;
+		  border-collapse: collapse;
+		  width: 70%;
+		  margin-top: 20px;
+		  height: 500px;
+		  overflow-y: scroll;
+		}
+
+		#accidenttable td, #accidenttable th {
+		  border: 2px solid #ddd;
+		  border-style: groove;
+		  padding: 5px;
+		}
+
+		#accidenttable tr:nth-child(even){
+			background-color: #f2f2f2;
+		}
+
+		#accidenttable tr:hover {
+			background-color: #ddd;
+		}
+
+		#accidenttable th {
+    	  height:30px;
+		  padding-top: 8px;
+		  padding-bottom: 8px;
+		  text-align: center;
+		  background-color: blue;
+		  color: white;
+		}
+		#accidenttable th {
+    	  height:30px;
+    	}
+		#sendemail{
+			background-color: orange;
+			color: white;
+			border-radius: 3px;
+			border: 1px solid red;
+		}
+    </style>
+</head>
+<body>
+
+<div class="header">
+	<a href="#default" class="logo">Road Accident Analaysis</a>
+	<div class="header-right">
+	    <a class="active" href="{{ url_for('main') }}">Home</a>
+	    <a href="{{ url_for('visual') }}">Charts Details</a>
+	</div>
+</div>
+<center>
+<table id="accidenttable">
+  <tr>
+    <th>Reference Number</th>
+    <th>Severity</th>
+    <th>Investigator</th>
+    <th>Place</th>
+    <th>Accident Date</th>
+    <th>Send Email</th>
+  </tr>
+
+  {% if resultdata %}
+  	{% for row in resultdata: %}
+	  <tr>
+	    <td style="text-align: center"> {{ row.referencenumber }}</td>
+	    <td style="text-align: center">
+	    	{% if row.prediction == '0' %}
+	    	  Slight
+	    	{% else %}
+	    	   Serious
+	    	{% endif %}
+	    </td>
+	    <td>{{ row.user }}</td>
+	    <td>{{ row.place }}</td>
+	    <td>{{ row.accidentdate }}</td>
+	    <td><center><button id="sendemail" onclick="sendEmail {{ row.referencenumber, row.noofvehicles, row.roadtype, row.roadsurface, row.lightcondition, row.weather, row.casualityclass, row.casualitysex, row.casualityage, row.vehicletype, row.prediction, row.user, row.place }} ">Share via Email</button></center></td>
+	  </tr>
+	  {% endfor %}
+	  {% else %}
+	  <tr><td colspan="6" style="text-align: center;">No Predictions Are Available!</td></tr>
+ {% endif %}
+</table>
+</center>
+</body>
+
+<script type="text/javascript">
+	function sendEmail(referencenumber, noofvehicles, roadtype, roadsurface, light, weather, casualityclass, casualitysex, casualityage, vehicletype, prediction, user, place){
+
+
+		if (prediction == 1)
+            prediction="Serious Accident"
+        else
+            prediction="Slight Accident"
+            
+        if (roadtype == 0)
+            roadtype = 'A - Type'
+        else if (roadtype == 1)
+            roadtype = 'A(M) - Type'
+         else if (roadtype == 2)
+            roadtype = 'B - Type'
+         else if (roadtype == 3)
+            roadtype = 'Motor way - Type'
+         else if (roadtype == 4)
+             roadtype = 'Unclassified - Type'
+             
+        if (roadsurface == 0)
+            roadsurface = 'Dry'
+         else if (roadsurface == 1)
+            roadsurface = 'Frost'
+         else if (roadsurface == 2)
+            roadsurface = 'Flood'
+         else if (roadsurface == 3)
+            roadsurface = 'Snow'
+         else if (roadsurface == 4)
+             roadsurface = 'Wet'
+             
+             
+        if (light == 0)
+            light = 'No street lighting'
+         else if (light == 1)
+            light = 'Street lighting unknown'
+         else if (light == 2)
+            light = 'Street lights present and lit'
+         else if (light == 3)
+            light = 'Darkness'
+            
+        if (weather == 0)
+            weather = 'Fine without high winds'
+         else if (weather == 1)
+            weather = 'Fog or mist – if hazardn'
+         else if (weather == 2)
+            weather = 'Street lights present and lit'
+         else if (weather == 3)
+            weather = 'Other'
+         else if (weather == 4)
+            weather = 'Raining without high winds'
+         else if (weather == 5)
+            weather = 'Raining with high winds'
+         else if (weather == 6)
+            weather = 'Snowing without high winds'
+         else if (weather == 7)
+            weather = 'Snowing with high winds'
+         else if (weather == 8)
+            weather = 'Unknown'
+            
+        if (casualityclass == 0)
+            casualityclass = 'Driver'
+         else if (casualityclass == 1)
+            casualityclass = 'Passenger'
+         else if (casualityclass == 2)
+            casualityclass = 'Pedestrian'
+        
+        if (casualitysex == 0)
+            casualitysex = 'Female'
+         else if (casualitysex == 1)
+            casualitysex = 'Male'
+            
+        
+        if (vehicletype == 0)
+            vehicletype = 'Agri vehicle'
+         else if (vehicletype == 1)
+            vehicletype = 'Bus'
+         else if (vehicletype == 2)
+            vehicletype = 'Car'
+         else if (vehicletype == 3)
+            vehicletype = 'Goods Vehicle'
+         else if (vehicletype == 4)
+            vehicletype = 'Motorcycle'
+         else if (vehicletype == 5)
+            vehicletype = 'Pedal cycle'
+         else if (vehicletype == 6)
+            vehicletype = 'Other vehicle'
+
+		let emailTo = 'receiver@gmail.com';
+		let emailCC = 'cc@example.com';
+		let emailSub = 'Accident Severity Report , Reference Number  '+ referencenumber;
+		let ebody = 'Accident Reference Number: ' + referencenumber + '\r\n' + 'Place: ' + place + '\r\n' + 'Severity: ' + prediction + '\r\n' + '\r\n' + '*******************************' + '\r\n' + 'Number Of Vehicle(s): ' + noofvehicles + '\r\n'+ 'Road Type: ' + roadtype + '\r\n' + 'Road Surface: ' + roadsurface + '\r\n' + 'Lighting Condition: ' + light + '\r\n' + 'Weather Condition: ' + weather + '\r\n' + 'Casuality Class: ' + casualityclass + '\r\n' + 'Casuality Age: ' + casualityage + '\r\n' + 'Casuality Sex: ' + casualitysex + '\r\n' + 'vehicle Type: ' + vehicletype + '\r\n' + '\r\n' + '\r\n' + 'With Regards,' + '\r\n' + user ;
+
+
+		let emailBody = encodeURIComponent(ebody);
+		window.open(`mailto:${emailTo}?cc=${emailCC}&subject=${emailSub}&body=${emailBody}`, '_self');
+	}
+</script>
+</html>
+

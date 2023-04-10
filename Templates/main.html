@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, Intial-scale=1">
+	<title>Accident Severity</title>
+	
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'index.css') }}">
+    <script src="{{ url_for('static', filename = 'jquery.js') }}"></script>
+	<style>
+* {
+	box-sizing: border-box;
+}
+body{
+	width:100%;
+	margin: auto;
+	font-family: Verdana, sans-serif;
+	background-image:url("{{ url_for('static', filename = 'page.jpg') }}");
+  	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	}
+header{
+  		background-color: blue;
+  		color:white;
+  		text-align: center;
+  		padding:15px;	
+  	}
+header h2{
+  		color:white;
+  	}
+
+h3{
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+p{
+text-align: justify;
+margin-right: 15px;
+}
+h2{
+	color: green;
+}
+th{
+	color: #0033cc;
+	font-weight: bold;
+}
+td,th{
+	border: none;
+	padding: 12px;
+	text-align: left;
+	margin-left: 30px;
+}
+select, input{
+	padding: 6px;
+	width:100%;
+	border-color:#e80c89;
+	border-radius: 5px; 
+}
+
+.anbody{
+	width:40%;
+	margin: auto;
+	font-family: Verdana, sans-serif;
+	background-color: white;
+	border-style: ridge;
+}
+
+.ansbody{
+	width:60%;
+	margin: auto;
+	font-family: Verdana, sans-serif;
+	background-color: white;
+	border-style: outset;
+}
+.button{
+  	font-weight: bold; 
+  	background-color: green;
+  	color:white;
+  	border-style: groove;
+  	border-color: none; 
+  }
+  input[type="submit"], input[type="reset"], input[type="button"]{
+  	border: none;
+  	cursor: pointer;
+  }
+  .marquee{
+  	margin-left: 10px;
+  	margin-right: 10px;
+  }
+  option{
+  	background-color: #f0f4fa;}
+
+.road{
+   color:#3333ff;
+   font-family:Arial, Helvetica, sans-serif;
+  }
+  
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <a href="#default" class="logo">Road Accident Analaysis</a>
+  <div class="header-right">
+    <a class="active" href="{{ url_for('main') }}">Home</a>
+    <a href="{{ url_for('visual') }}">Charts Details</a>
+    <a>
+    <form name="userform" action="{{ url_for('mailservice') }}" method="POST">
+    	{% if usernameins %}
+    	<input type="hidden" value="{{ usernameins }}" name="usernameget">
+    	{% else %}
+    	<input type="hidden" value="{{ user }}" name="usernameget">
+    	{% endif %}
+    	<button type='submit' class="mypredbutton">My Predictions</button>
+    </form>
+	</a>
+  </div>
+</div>
+
+
+{% if result %}
+<div class="ansbody" align="center" id="ansbody">
+	<br>
+	<center>
+		<p style="color:blue; text-align: center"><b>Result Here : <span style="color:red"> {{ result }} </span></b></p>
+		<input type="button" onclick="downloadReport()" class="button" value="Download Report Here" style="background-color: blue; width: 70%">
+	</center>
+	<br>
+</div>
+
+<div id="reportSheet" style="border-style: double;width: 50%; margin: auto;display: none">
+	<center><h2 style="color: black">Road Accident Report</h2></center>
+	<div style="margin-left: 10%; border-bottom: dashed; margin-right: 10%;">
+		<b>Accident Reference Number</b> : {{ userInput.refnum }}<br>
+		<b>Accident Severity : </b>{{ result }}<br>
+		<b>Date & Time :</b> {{ userInput.accidentdate }}<br>
+		<b>Place :</b> {{ userInput.place }} <br><br>
+	</div>
+	<br>
+	<div style="margin-left: 10%">
+		<table>
+			<tr>
+				<td><b>No. of Vehicle:</b></td>
+				<td>{{ userInput.noofveh }}</td>
+			</tr>
+			<tr>
+				<td><b>Road Type:</b></td>
+				<td>{{ userInput.roveg }}</td>
+			</tr>
+			<tr>
+				<td><b>Road Surface:</b></td>
+				<td>{{ userInput.roadsurf }}</td>
+			</tr>
+			<tr>
+				<td><b>Light Condition:</b></td>
+				<td>{{ userInput.light }}</td>
+			</tr>
+			<tr>
+				<td><b>Weather:</b></td>
+				<td>{{ userInput.weather }}</td>
+			</tr>
+			<tr>
+				<td><b>Casuality Class:</b></td>
+				<td>{{ userInput.cclass }}</td>
+			</tr>
+			<tr>
+				<td><b>Casuality Sex:</b></td>
+				<td>{{ userInput.sex }}</td>
+			</tr>
+			<tr>
+				<td><b>Casuality Age:</b></td>
+				<td>{{ userInput.age }}</td>
+			</tr>
+			<tr>
+				<td><b>Vehicle Type	:</b></td>
+				<td>{{ userInput.typeveg }}</td>
+			</tr>
+		</table>
+	
+	<br>
+
+	<table>
+		<tr>
+			<td><b>Investigated By:</b></td>
+			<td>{{ userInput.username }}</td>
+		</tr>
+		<tr>
+			<td><b>Investigator Contact:</b></td>
+			<td>{{ userInput.phone }}</td>
+		</tr>
+		<tr>
+			<td><b>Reported By:</b></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><b>Reporter Contact:</b></td>
+			<td></td>
+		</tr>
+	</table>
+	<br><br>
+</div>
+	<center>(This is an computer generated report)</center>
+</div> 
+
+{% endif %}
+
+<br><br>
+<div class="anbody">
+<br>
+<marquee style="color:red" class="marquee"><b>Enter the below input fields to find the accident severities!</b></marquee>
+<center>
+<form action="{{ url_for('main') }}" method="POST" name="form" id="predict">
+
+<table>
+<tr>
+<th>Number of Vehicle</th>
+<td>
+	<input type="number" name="noofveh" placeholder="Enter number of vehicle" required>
+		{% if usernameins %}
+    	<input type="hidden" value="{{ usernameins }}" name="usernameins">
+    	{% else %}
+    	<input type="hidden" value="{{ user }}" name="usernameins">
+    	{% endif %}
+</td>
+</tr>
+
+<tr>
+<th>Road Type</th>
+<td>
+	<select name="roveh" required>
+		<option value="">Select Road Type</option>
+		<option value="0">A - Type</option>
+		<option value="1">A(M) - Type</option>
+		<option value="2">B - Type</option>
+		<option value="3">Motor way - Type</option>
+    	<option value="4">Unclassified - Type</option>
+    </select>
+</td>
+</tr>
+
+<tr>
+<th>Road Surface</th>
+<td>
+<select name="roadsurf" required>
+  <option value="">Select Road Surface</option>
+  <option value="0">Dry</option>
+  <option value="1">Frost</option>
+  <option value="2">Flood</option>
+  <option value="3">Snow</option>
+  <option value="4">Wet</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Light Condition</th>
+<td>
+<select name="light" required>
+  <option value="">Select Light Condition</option>
+  <option value="0">No street lighting</option>
+  <option value="1">Street lighting unknown</option>
+  <option value="2">Street lights present and lit</option>
+  <option value="3">Darkness</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Weather</th>
+<td>
+<select name="weather" required>
+	<option value="">Select Weather Type</option>
+	<option value="0">Fine without high winds</option>
+	<option value="1">Fog or mist – if hazard</option>
+	<option value="2">Fine with high winds</option>
+	<option value="3">Other</option>
+	<option value="4">Raining without high winds</option>
+	<option value="5">Raining with high winds</option>
+	<option value="6">Snowing without high winds</option>
+	<option value="7">Snowing with high winds</option>
+	<option value="8">Unknown</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Casuality Class</th>
+<td>
+<select name="cclass" required>
+	<option value="">Select Casuality Class</option>
+	<option value="0">Driver</option>
+	<option value="1">Passenger</option>
+	<option value="2">Pedestrian</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Casuality Sex</th>
+<td>
+<select name="sex" required>
+	<option value="">Casuality Sex</option>
+	<option value="0">Female</option>
+	<option value="1">Male</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Casuality Age</th>
+<td>
+	<input type="number" name="age" placeholder="Enter age" required>
+</td>
+</tr>
+
+<tr>
+<th>Vehicle Type</th>
+<td>
+<select name="typeveh" required>
+	<option value="">Vehicle Type</option>
+	<option value="0">Agri vehicle</option>
+	<option value="1">Bus</option>
+	<option value="2">Car</option>
+	<option value="3">Goods Vehicle</option>
+	<option value="4">Motorcycle</option>
+	<option value="5">Pedal cycle</option>
+	<option value="6">Other vehicle</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Place</th>
+<td>
+<input type="text" name="place" placeholder="Enter place" required>
+</td>
+</tr>
+
+<tr>
+<th><input type="reset" value="Reset" class="button" style="background-color:red"></th>
+<td><input type="submit" value="Predict" class="button"></td>
+</tr>
+
+</table>
+</form>
+
+</center>
+</div>
+<br><br>
+</body>
+<script type="text/javascript" >
+	function downloadReport(){
+		var accidentReport = document.getElementById("reportSheet").innerHTML;
+    	var printWindow = window.open('', '', 'height=400,width=800');
+   		printWindow.document.write(accidentReport);
+    	printWindow.document.close();
+    	printWindow.print();
+    	printWindow.close();
+	}
+</script>
+</html>
+
+
+
+

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, Intial-scale=1">
+	<title>CAPSTONE SURAKSHA VIT</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename = 'style.css') }}">
+	<style type="text/css">
+		body{
+			width:100%;
+			margin: auto;
+			font-family: Verdana, sans-serif;
+		  	background-image: url("{{ url_for('static', filename = 'login.jpg') }}");
+		  	background-position: center;
+		  	background-repeat: no-repeat;
+		  	background-size: cover;
+		  }
+	</style>
+</head>
+
+<body id="home">
+<header><h2>CAPSTONE PROJECT Accident Severity</h2></header>
+<br><br>
+<div class="loginanbody">
+<br>
+<center><span class="red"><b>{{ msg }}</b></span></center>
+<center>
+<form action="{{ url_for('login') }}" method="POST" name="login" id="login">
+<table>
+<tr>
+<th>Username</th>
+<td>
+	<input type="text" name="username" placeholder="Enter the username" required="true">
+</td>
+</tr>
+<tr>
+<th>Password</th>
+<td>
+	<input type="password" name="password" placeholder="Enter the password" required="true">
+</td>
+</tr>
+</table>
+<br>
+<button type="button" class="button loginbutton" onclick="userlogin()">Login</button><br><br>
+</form>
+<center><span class="red">Not yet registered? Please <a href="{{ url_for('registeruser') }}">Register</a><br><br></span></center>
+</center>
+</div>
+<script type="text/javascript">
+	function userlogin(){
+		document.getElementById("login").submit();
+	} 
+</script>
+</body>
+</html>
+
+
+
+

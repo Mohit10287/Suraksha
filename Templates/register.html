@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, Intial-scale=1">
+	<title>Accident severity prediction</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename = 'style.css') }}">
+	<style type="text/css">
+		body{
+			width:100%;
+			margin: auto;
+			font-family: Verdana, sans-serif;
+		  	background-image: url("{{ url_for('static', filename = 'register.jpg') }}");
+		  	background-position: center;
+		  	background-repeat: no-repeat;
+		  	background-size: cover;
+		  }
+	</style>
+</head>
+
+<body id="home">
+<header><h2>USER REGISTERATION</h2></header>
+<br>
+<div class="anbody">
+<br>
+<center><span class="red"><b>{{ msg }}</b></span><br>
+<span class="red">Already registered? Please <a href="{{ url_for('login') }}">Login</a><br></span></center>
+<center>
+<form action="{{ url_for('registeruser') }}" method="POST" name="register" id="register">
+
+<table>
+<tr>
+<th>Username</th>
+<td>
+	<input type="text" name="username" placeholder="Enter the username" required>
+</td>
+</tr>
+
+<tr>
+<th>Role</th>
+<td>
+	<select name="role" required>
+		<option value="">Select your role</option>
+		<option value="police">Police Investigator</option>
+		<option value="reporter">Reporter</option>
+		<option value="journalist">Journalist</option>
+		<option value="employee">EmployeeStudent</option>
+		<option value="student">Student</option>
+    	<option value="others">Others</option>
+    </select>
+</td>
+</tr>
+
+<tr>
+<th>Phone</th>
+<td>
+	<input type="number" name="phone" placeholder="Enter the phone number">
+</td>
+</tr>
+
+<tr>
+<th>E-mail</th>
+<td>
+	<input type="email" name="email" placeholder="Enter the email">
+</td>
+</tr>
+
+<tr>
+<th>Purpose</th>
+<td>
+	<textarea name="purpose" placeholder="Enter the purpose of using this application"></textarea>
+</td>
+</tr>
+
+<tr>
+<th>Password</th>
+<td>
+	<input type="password" name="password" id='password' placeholder="Enter the password">
+</td>
+</tr>
+
+<tr>
+<th>Confirm Password</th>
+<td>
+	<input type="password" name="confpassword" id='confpassword' placeholder="Please confirm password">
+	<span class="error" id="passworderror" style="display: none">Entered passwords does not match</span>
+</td>
+</tr>
+
+
+<tr>
+<th><input type="reset" value="Reset" class="button" style="background-color:red"></th>
+<td>
+<button type="button" class="button" onclick="validate()">Register</button>
+</td>
+</tr>
+</table>
+
+</form>
+
+</center>
+</div>
+
+<br><br>
+<script type="text/javascript">
+	function validate(){
+		var pass = document.getElementById("password").value;
+		var conPass = document.getElementById("confpassword").value;
+		if(pass == conPass){
+			document.getElementById("passworderror").style.display = "none";
+			document.getElementById("register").submit();
+		}else{
+			document.getElementById("passworderror").style.display = 'block';
+			return false;
+		}
+		
+	}
+</script>
+</body>
+</html>
+
+
+
+

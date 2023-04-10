@@ -1,0 +1,92 @@
+* {
+	box-sizing: border-box;
+}
+.error{
+  color: red;
+  font-size: 15px;
+}
+header{
+  		background-color: blue;
+  		color:white;
+  		text-align: center;
+  		padding:15px;	
+  	}
+header h2{
+  		color:white;
+  	}
+
+h3{
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+p{
+text-align: justify;
+margin-right: 15px;
+}
+h2{
+	color: green;
+}
+th{
+	color: #0033cc;
+	font-weight: bold;
+}
+td,th{
+	border: none;
+	padding: 12px;
+	text-align: left;
+	margin-left: 30px;
+}
+select, input, textarea, button{
+	padding: 8px;
+	width:100%;
+	border-color:#e80c89;
+	border-radius: 5px; 
+}
+.anbody{
+	width:40%;
+	margin: auto;
+	font-family: Verdana, sans-serif;
+	background-color: white;
+	border-style: ridge;
+  border-radius: 5px;
+  opacity: 0.9;
+}
+.loginanbody{
+	width:40%;
+	margin: auto;
+	font-family: Verdana, sans-serif;
+	background-color: white;
+  opacity: 0.9;
+  border-radius: 5px;
+}
+.button{
+  	font-weight: bold; 
+  	background-color: green;
+  	color:white;
+  	/*border-style: groove;*/
+  	border-color: none; 
+  }
+  input[type="submit"], input[type="reset"], input[type="button"], button{
+  	border: none;
+  	outline: none;
+  	cursor: pointer;
+  }
+  .marquee{
+  	margin-left: 10px;
+  	margin-right: 10px;
+  }
+  option{
+  	background-color: #f0f4fa;
+  }
+  a{
+  	font-weight: bold;
+  	color: blue;
+  	text-decoration: none;
+  }
+  .red{
+  	color: red;
+  }
+  .loginbutton{
+  	width: 50%;
+  }
